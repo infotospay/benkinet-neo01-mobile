@@ -14,6 +14,9 @@ A comprehensive mobile application for the Benkinet Neo01 platform, providing ba
 - **User Profile Management**: Edit profile, security settings, and language preferences
 - **Notifications**: Receive and manage notifications for various events
 - **Wallet Hierarchies**: Organize wallets into hierarchical groups with transfers between wallets
+- **Scheduled Transactions**: Schedule one-time or recurring transactions
+- **Enhanced Security**: Biometric authentication and transaction PIN
+- **Multi-Currency Support**: Currency conversion and real-time exchange rates
 
 ## Technology Stack
 
@@ -64,6 +67,21 @@ The following features have been implemented:
     - Organize wallets into hierarchical groups
     - Transfer funds between wallets in the same hierarchy
     - View hierarchy balances and statistics
+15. ✅ Scheduled Transactions
+    - Schedule one-time or recurring transactions
+    - Daily, weekly, or monthly recurrence options
+    - View, edit, and cancel scheduled transactions
+    - Receive notifications for upcoming scheduled transactions
+16. ✅ Enhanced Security Features
+    - Biometric authentication (fingerprint/face)
+    - Transaction PIN for sensitive operations
+    - Device management and login history
+    - Security alerts for suspicious activities
+17. ✅ Multi-Currency Support
+    - Currency conversion with real-time rates
+    - View exchange rates for supported currencies
+    - Set default currency and display preferences
+    - Support for East African currencies (KES, UGX, TZS, RWF, etc.)
 
 ## Getting Started
 

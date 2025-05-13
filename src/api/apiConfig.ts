@@ -38,6 +38,34 @@ export const ENDPOINTS = {
   MONEY_REQUESTS_INCOMING: '/payment/money-requests/incoming',
   PAYMENT_LINKS: '/payment/payment-links',
   
+  // Scheduled Transactions
+  SCHEDULED_TRANSACTIONS: '/payment/scheduled-transactions',
+  SCHEDULED_TRANSACTION_DETAILS: (scheduledTransactionId: string) => `/payment/scheduled-transactions/${scheduledTransactionId}`,
+  SCHEDULED_TRANSACTION_CANCEL: (scheduledTransactionId: string) => `/payment/scheduled-transactions/${scheduledTransactionId}/cancel`,
+  
+  // Enhanced Security
+  BIOMETRIC_SETUP: '/auth/user/biometric-setup',
+  BIOMETRIC_VERIFY: '/auth/user/biometric-verify',
+  TRANSACTION_PIN_SETUP: '/auth/user/transaction-pin-setup',
+  TRANSACTION_PIN_VERIFY: '/auth/user/transaction-pin-verify',
+  DEVICES: '/auth/user/devices',
+  DEVICE_DETAILS: (deviceId: string) => `/auth/user/devices/${deviceId}`,
+  DEVICE_REMOVE: (deviceId: string) => `/auth/user/devices/${deviceId}/remove`,
+  LOGIN_HISTORY: '/auth/user/login-history',
+  
+  // Multi-Currency
+  CURRENCY_CONVERSION: '/treasury/currency-conversion',
+  EXCHANGE_RATES_LIVE: '/treasury/exchange-rates/live',
+  CURRENCY_PREFERENCES: '/user/currency-preferences',
+  
+  // Notifications
+  NOTIFICATIONS: '/notifications',
+  NOTIFICATION_DETAILS: (notificationId: string) => `/notifications/${notificationId}`,
+  NOTIFICATION_READ: (notificationId: string) => `/notifications/${notificationId}/read`,
+  NOTIFICATIONS_READ_ALL: '/notifications/read-all',
+  NOTIFICATION_DELETE: (notificationId: string) => `/notifications/${notificationId}`,
+  NOTIFICATION_SETTINGS: '/notifications/settings',
+  
   // Merchant
   MERCHANT_PROFILE: (merchantId: string) => `/merchant/merchants/${merchantId}`,
   MERCHANT_TRANSACTIONS: (merchantId: string) => `/merchant/merchants/${merchantId}/transactions`,

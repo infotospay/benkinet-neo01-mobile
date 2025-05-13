@@ -3,12 +3,20 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './slices/authSlice';
 import walletReducer from './slices/walletSlice';
 import transactionReducer from './slices/transactionSlice';
+import scheduledTransactionReducer from './slices/scheduledTransactionSlice';
+import notificationReducer from './slices/notificationSlice';
+import securityReducer from './slices/securitySlice';
+import currencyReducer from './slices/currencySlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     wallet: walletReducer,
     transaction: transactionReducer,
+    scheduledTransaction: scheduledTransactionReducer,
+    notification: notificationReducer,
+    security: securityReducer,
+    currency: currencyReducer,
     // Other reducers will be added as they are created
   },
   middleware: (getDefaultMiddleware) =>

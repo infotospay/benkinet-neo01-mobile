@@ -12,6 +12,11 @@ import {
   TransactionDetailsScreen,
   TransactionsListScreen
 } from '../../screens/transactions';
+import {
+  ScheduledTransactionsListScreen,
+  ScheduledTransactionDetailsScreen,
+  CreateScheduledTransactionScreen,
+} from '../../screens/transactions/scheduled';
 import { GenerateQRScreen, ScanQRScreen } from '../../screens/qrcode';
 import { PaymentLinkScreen } from '../../screens/paymentlink';
 import {
@@ -50,6 +55,10 @@ export type MainStackParamList = {
   CreateWallet: undefined;
   Transactions: { walletId?: string };
   TransactionDetails: { transactionId: string };
+  ScheduledTransactions: undefined;
+  ScheduledTransactionDetails: { scheduledTransactionId: string };
+  CreateScheduledTransaction: undefined;
+  EditScheduledTransaction: { scheduledTransactionId: string };
   EditProfile: undefined;
   Security: undefined;
   Language: undefined;
@@ -65,6 +74,11 @@ export type MainStackParamList = {
   Licenses: undefined;
   Notifications: undefined;
   NotificationSettings: undefined;
+  BiometricSetup: undefined;
+  TransactionPINSetup: undefined;
+  CurrencyConversion: undefined;
+  ExchangeRates: undefined;
+  CurrencyPreferences: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -155,6 +169,28 @@ const MainStack = () => {
         options={{ headerShown: true, title: 'Transaction Details' }}
       />
       
+      {/* Scheduled Transaction Screens */}
+      <Stack.Screen 
+        name="ScheduledTransactions" 
+        component={ScheduledTransactionsListScreen} 
+        options={{ headerShown: true, title: 'Scheduled Transactions' }}
+      />
+      <Stack.Screen 
+        name="ScheduledTransactionDetails" 
+        component={ScheduledTransactionDetailsScreen} 
+        options={{ headerShown: true, title: 'Scheduled Transaction Details' }}
+      />
+      <Stack.Screen 
+        name="CreateScheduledTransaction" 
+        component={CreateScheduledTransactionScreen} 
+        options={{ headerShown: true, title: 'Create Scheduled Transaction' }}
+      />
+      <Stack.Screen 
+        name="EditScheduledTransaction" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Edit Scheduled Transaction' }}
+      />
+      
       {/* Profile Screens */}
       <Stack.Screen 
         name="EditProfile" 
@@ -219,6 +255,35 @@ const MainStack = () => {
         name="SetupPIN" 
         component={PlaceholderScreen} 
         options={{ headerShown: true, title: 'Set PIN' }}
+      />
+      
+      {/* Enhanced Security Screens */}
+      <Stack.Screen 
+        name="BiometricSetup" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Biometric Authentication' }}
+      />
+      <Stack.Screen 
+        name="TransactionPINSetup" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Transaction PIN' }}
+      />
+      
+      {/* Multi-Currency Screens */}
+      <Stack.Screen 
+        name="CurrencyConversion" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Currency Conversion' }}
+      />
+      <Stack.Screen 
+        name="ExchangeRates" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Exchange Rates' }}
+      />
+      <Stack.Screen 
+        name="CurrencyPreferences" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Currency Preferences' }}
       />
       
       {/* Support Screens */}

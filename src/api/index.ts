@@ -127,6 +127,51 @@ export const apiService = {
     }
   },
   
+  getHierarchyDetails: async (hierarchyId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.HIERARCHY_DETAILS(hierarchyId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getHierarchyBalances: async (hierarchyId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.HIERARCHY_BALANCES(hierarchyId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  createWalletHierarchy: async (hierarchyData: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.WALLET_HIERARCHIES, hierarchyData);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  updateWalletHierarchy: async (hierarchyId: string, hierarchyData: any): Promise<any> => {
+    try {
+      const response = await api.put(ENDPOINTS.HIERARCHY_DETAILS(hierarchyId), hierarchyData);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  deleteWalletHierarchy: async (hierarchyId: string): Promise<any> => {
+    try {
+      const response = await api.delete(ENDPOINTS.HIERARCHY_DETAILS(hierarchyId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
   // Transactions
   createTransaction: async (transactionData: any): Promise<any> => {
     try {
@@ -158,6 +203,162 @@ export const apiService = {
   calculateTransactionFee: async (data: { amount: number; currency: string; type: string }): Promise<any> => {
     try {
       const response = await api.post(ENDPOINTS.TRANSACTION_FEE, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Scheduled Transactions
+  getScheduledTransactions: async (params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SCHEDULED_TRANSACTIONS, { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getScheduledTransactionDetails: async (scheduledTransactionId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SCHEDULED_TRANSACTION_DETAILS(scheduledTransactionId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  createScheduledTransaction: async (scheduledTransactionData: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.SCHEDULED_TRANSACTIONS, scheduledTransactionData);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  updateScheduledTransaction: async (scheduledTransactionId: string, data: any): Promise<any> => {
+    try {
+      const response = await api.put(ENDPOINTS.SCHEDULED_TRANSACTION_DETAILS(scheduledTransactionId), data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  cancelScheduledTransaction: async (scheduledTransactionId: string): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.SCHEDULED_TRANSACTION_CANCEL(scheduledTransactionId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Enhanced Security
+  setupBiometric: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.BIOMETRIC_SETUP, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  verifyBiometric: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.BIOMETRIC_VERIFY, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  setupTransactionPIN: async (data: { pin: string }): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.TRANSACTION_PIN_SETUP, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  verifyTransactionPIN: async (data: { pin: string; transactionId?: string }): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.TRANSACTION_PIN_VERIFY, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getDevices: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.DEVICES);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getDeviceDetails: async (deviceId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.DEVICE_DETAILS(deviceId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  removeDevice: async (deviceId: string): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.DEVICE_REMOVE(deviceId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getLoginHistory: async (params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.LOGIN_HISTORY, { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Multi-Currency
+  convertCurrency: async (data: { amount: number; fromCurrency: string; toCurrency: string }): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.CURRENCY_CONVERSION, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getLiveExchangeRates: async (params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.EXCHANGE_RATES_LIVE, { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getCurrencyPreferences: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.CURRENCY_PREFERENCES);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  updateCurrencyPreferences: async (data: any): Promise<any> => {
+    try {
+      const response = await api.put(ENDPOINTS.CURRENCY_PREFERENCES, data);
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;
