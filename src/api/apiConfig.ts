@@ -21,6 +21,10 @@ export const ENDPOINTS = {
   MERCHANT_LOGIN: '/auth/merchant/login',
   AGENT_LOGIN: '/auth/agent/login',
   
+  // Role Management
+  USER_ROLES: '/auth/user/roles',
+  SWITCH_ROLE: '/auth/user/roles/switch',
+  
   // Wallet
   WALLETS: '/wallet/wallets',
   WALLET_DETAILS: (walletId: string) => `/wallet/wallets/${walletId}`,
@@ -71,6 +75,11 @@ export const ENDPOINTS = {
   MERCHANT_TRANSACTIONS: (merchantId: string) => `/merchant/merchants/${merchantId}/transactions`,
   MERCHANT_COMMISSIONS: (merchantId: string) => `/merchant/merchants/${merchantId}/commissions`,
   MERCHANT_DUAL_ROLE: (merchantId: string) => `/merchant/merchants/${merchantId}/dual-role/summary`,
+  MERCHANT_PAYMENT_METHODS: (merchantId: string) => `/merchant/merchants/${merchantId}/payment-methods`,
+  MERCHANT_PAYMENT_LINKS: (merchantId: string) => `/merchant/merchants/${merchantId}/payment-links`,
+  MERCHANT_QR_CODES: (merchantId: string) => `/merchant/merchants/${merchantId}/qr-codes`,
+  MERCHANT_CUSTOMERS: (merchantId: string) => `/merchant/merchants/${merchantId}/customers`,
+  MERCHANT_SETTLEMENTS: (merchantId: string) => `/merchant/merchants/${merchantId}/settlements`,
   
   // Agent
   AGENT_PROFILE: (agentId: string) => `/agent/agents/${agentId}`,
@@ -79,12 +88,15 @@ export const ENDPOINTS = {
   AGENT_CASH_COLLECTIONS: '/agent/cash-collections',
   AGENT_CASH_DISTRIBUTIONS: '/agent/cash-distributions',
   AGENT_COMMISSIONS: (agentId: string) => `/agent/agents/${agentId}/commissions`,
+  AGENT_CUSTOMERS: (agentId: string) => `/agent/agents/${agentId}/customers`,
+  AGENT_TRANSACTIONS: (agentId: string) => `/agent/agents/${agentId}/transactions`,
   
   // Super Agent
   SUPER_AGENT_SUB_AGENTS: (parentAgentId: string) => `/agent/agents?parentAgentId=${parentAgentId}`,
   SUPER_AGENT_FLOAT_REQUESTS: '/agent/float-distributions/requests',
   SUPER_AGENT_FLOAT_DISTRIBUTION: '/agent/float-distributions',
   SUPER_AGENT_MARKET_LIQUIDITY: '/agent/market-liquidity',
+  SUPER_AGENT_COMMISSION_STRUCTURE: (parentAgentId: string) => `/agent/agents/${parentAgentId}/commission-structure`,
   
   // Treasury
   EXCHANGE_RATES: '/treasury/exchange-rates',

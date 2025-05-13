@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, StyleSheet } from 'react-native';
 import { colors, typography } from '../theme';
-import { useAppSelector } from '../store';
+import { useAppSelector, useAppDispatch } from '../store';
+import { UserRole } from '../store/slices/roleSlice';
 
 // Import screens
 import { HomeScreen } from '../screens/home';
@@ -10,6 +11,8 @@ import { WalletScreen } from '../screens/wallet';
 import { PaymentsScreen } from '../screens/payments';
 import { ProfileScreen } from '../screens/profile';
 import { NotificationsListScreen } from '../screens/notifications';
+import { AgentDashboardScreen } from '../screens/agent';
+import { MerchantDashboardScreen } from '../screens/merchant';
 
 // Define navigation types
 export type MainTabParamList = {
@@ -18,6 +21,8 @@ export type MainTabParamList = {
   Payments: undefined;
   Notifications: undefined;
   Profile: undefined;
+  AgentDashboard: undefined;
+  MerchantDashboard: undefined;
 };
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -30,7 +35,9 @@ const TabBarIcon = ({ name, focused }: { name: string; focused: boolean }) => {
     Wallet: '💰',
     Payments: '💸',
     Notifications: '🔔',
-    Profile: '��',
+    Profile: '👤',
+    AgentDashboard: '🧑‍💼',
+    MerchantDashboard: '🏪',
   };
 
   return (
@@ -42,6 +49,12 @@ const TabBarIcon = ({ name, focused }: { name: string; focused: boolean }) => {
 
 const MainTabNavigator = () => {
   const { unreadCount } = useAppSelector((state) => state.notification);
+  const { activeRole } = useAppSelector((state) => state.role);
+  
+  // Determine which tabs to show based on the active role
+  const isCustomer = !activeRole || activeRole.role === UserRole.CUSTOMER;
+  const isMerchant = activeRole?.role === UserRole.MERCHANT;
+  const isAgent = activeRole?.role === UserRole.AGENT || activeRole?.role === UserRole.SUPER_AGENT;
   
   return (
     <Tab.Navigator
@@ -56,9 +69,34 @@ const MainTabNavigator = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Wallet" component={WalletScreen} />
-      <Tab.Screen name="Payments" component={PaymentsScreen} />
+      {/* Customer Tabs */}
+      {isCustomer && (
+        <>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Wallet" component={WalletScreen} />
+          <Tab.Screen name="Payments" component={PaymentsScreen} />
+        </>
+      )}
+      
+      {/* Merchant Tabs */}
+      {isMerchant && (
+        <Tab.Screen 
+          name="MerchantDashboard" 
+          component={MerchantDashboardScreen}
+          options={{ title: 'Dashboard' }}
+        />
+      )}
+      
+      {/* Agent Tabs */}
+      {isAgent && (
+        <Tab.Screen 
+          name="AgentDashboard" 
+          component={AgentDashboardScreen}
+          options={{ title: 'Dashboard' }}
+        />
+      )}
+      
+      {/* Common Tabs for All Roles */}
       <Tab.Screen 
         name="Notifications" 
         component={NotificationsListScreen} 

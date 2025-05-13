@@ -37,6 +37,8 @@ import {
   NotificationsListScreen,
   NotificationSettingsScreen,
 } from '../../screens/notifications';
+import { AgentDashboardScreen } from '../../screens/agent';
+import { MerchantDashboardScreen } from '../../screens/merchant';
 
 // Define navigation types
 export type MainStackParamList = {
@@ -79,6 +81,23 @@ export type MainStackParamList = {
   CurrencyConversion: undefined;
   ExchangeRates: undefined;
   CurrencyPreferences: undefined;
+  
+  // Agent Screens
+  AgentDashboard: undefined;
+  CashIn: undefined;
+  CashOut: undefined;
+  FloatRequest: undefined;
+  AgentTransactions: undefined;
+  FloatAccounts: undefined;
+  AgentCommissions: undefined;
+  
+  // Merchant Screens
+  MerchantDashboard: undefined;
+  CreatePaymentLink: undefined;
+  MerchantTransactions: undefined;
+  MerchantSettlements: undefined;
+  MerchantCommissions: undefined;
+  MerchantDualRole: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -284,6 +303,75 @@ const MainStack = () => {
         name="CurrencyPreferences" 
         component={PlaceholderScreen} 
         options={{ headerShown: true, title: 'Currency Preferences' }}
+      />
+      
+      {/* Agent Screens */}
+      <Stack.Screen 
+        name="AgentDashboard" 
+        component={AgentDashboardScreen} 
+        options={{ headerShown: true, title: 'Agent Dashboard' }}
+      />
+      <Stack.Screen 
+        name="CashIn" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Cash In' }}
+      />
+      <Stack.Screen 
+        name="CashOut" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Cash Out' }}
+      />
+      <Stack.Screen 
+        name="FloatRequest" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Request Float' }}
+      />
+      <Stack.Screen 
+        name="AgentTransactions" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Agent Transactions' }}
+      />
+      <Stack.Screen 
+        name="FloatAccounts" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Float Accounts' }}
+      />
+      <Stack.Screen 
+        name="AgentCommissions" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Agent Commissions' }}
+      />
+      
+      {/* Merchant Screens */}
+      <Stack.Screen 
+        name="MerchantDashboard" 
+        component={MerchantDashboardScreen} 
+        options={{ headerShown: true, title: 'Merchant Dashboard' }}
+      />
+      <Stack.Screen 
+        name="CreatePaymentLink" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Create Payment Link' }}
+      />
+      <Stack.Screen 
+        name="MerchantTransactions" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Merchant Transactions' }}
+      />
+      <Stack.Screen 
+        name="MerchantSettlements" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Merchant Settlements' }}
+      />
+      <Stack.Screen 
+        name="MerchantCommissions" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Merchant Commissions' }}
+      />
+      <Stack.Screen 
+        name="MerchantDualRole" 
+        component={PlaceholderScreen} 
+        options={{ headerShown: true, title: 'Dual Role Dashboard' }}
       />
       
       {/* Support Screens */}

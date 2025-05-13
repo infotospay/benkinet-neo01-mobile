@@ -9,7 +9,8 @@ import MainStack from './stacks/MainStack';
 
 // Import auth utilities
 import { isAuthenticated } from '../utils/authUtils';
-import { RootState } from '../store';
+import { RootState, useAppDispatch } from '../store';
+import { fetchUserRoles } from '../store/slices/roleSlice';
 
 // Define root navigation types
 export type RootStackParamList = {
@@ -22,7 +23,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 const Navigation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  const dispatch = useAppDispatch();
+
   // Get auth state from Redux
   const { isAuthenticated: isAuthenticatedRedux } = useSelector(
     (state: RootState) => state.auth
@@ -33,11 +35,17 @@ const Navigation = () => {
     const checkAuth = async () => {
       const authenticated = await isAuthenticated();
       setIsLoggedIn(authenticated);
+      
+      // If authenticated, fetch user roles
+      if (authenticated) {
+        dispatch(fetchUserRoles());
+      }
+      
       setIsLoading(false);
     };
 
     checkAuth();
-  }, [isAuthenticatedRedux]);
+  }, [isAuthenticatedRedux, dispatch]);
 
   if (isLoading) {
     // You could show a splash screen here

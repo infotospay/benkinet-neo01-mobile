@@ -11,14 +11,16 @@ import {
 } from 'react-native';
 import { colors, spacing, typography, borderRadius, shadows } from '../../theme';
 import { getUser, logout } from '../../utils/authUtils';
-import { useAppDispatch } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { logoutUser } from '../../store/slices/authSlice';
+import { RoleSwitcher } from '../../components/role';
 
 const ProfileScreen = ({ navigation }: any) => {
   const [user, setUser] = useState<any>(null);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const dispatch = useAppDispatch();
+  const { availableRoles } = useAppSelector((state) => state.role);
 
   useEffect(() => {
     loadUserData();
@@ -113,6 +115,18 @@ const ProfileScreen = ({ navigation }: any) => {
             <Text style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
         </View>
+
+        {availableRoles.length > 1 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Roles</Text>
+            <View style={styles.menuCard}>
+              <View style={styles.roleSwitcherContainer}>
+                <Text style={styles.menuItemText}>Switch Role</Text>
+                <RoleSwitcher />
+              </View>
+            </View>
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account</Text>
@@ -259,6 +273,12 @@ const styles = StyleSheet.create({
     ...shadows.md,
   },
   menuItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: spacing.md,
+  },
+  roleSwitcherContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

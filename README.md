@@ -17,6 +17,9 @@ A comprehensive mobile application for the Benkinet Neo01 platform, providing ba
 - **Scheduled Transactions**: Schedule one-time or recurring transactions
 - **Enhanced Security**: Biometric authentication and transaction PIN
 - **Multi-Currency Support**: Currency conversion and real-time exchange rates
+- **Role-Based Access**: Single app with role-specific features for customers, merchants, and agents
+- **Agent Functionality**: Cash-in/cash-out operations and float management
+- **Merchant Functionality**: Payment processing, settlements, and commission tracking
 
 ## Technology Stack
 
@@ -82,6 +85,22 @@ The following features have been implemented:
     - View exchange rates for supported currencies
     - Set default currency and display preferences
     - Support for East African currencies (KES, UGX, TZS, RWF, etc.)
+18. ✅ Role-Based Access Control
+    - Single unified app with role-based access for all user types
+    - Support for Customer, Merchant, Agent, and Super Agent roles
+    - Role switching for users with multiple roles
+    - Role-specific navigation and features
+19. ✅ Agent Functionality
+    - Agent dashboard with float balance overview
+    - Cash-in and cash-out operations
+    - Float request and management
+    - Agent transaction history and commission tracking
+20. ✅ Merchant Functionality
+    - Merchant dashboard with sales overview
+    - Payment method management
+    - Settlement and transaction tracking
+    - Merchant commission management
+    - Dual role support (Merchant + Agent)
 
 ## Getting Started
 

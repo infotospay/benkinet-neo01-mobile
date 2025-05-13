@@ -90,6 +90,25 @@ export const apiService = {
     }
   },
   
+  // Role Management
+  getUserRoles: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.USER_ROLES);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  switchUserRole: async (roleId: string): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.SWITCH_ROLE, { roleId });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
   // Wallet
   getWallets: async (): Promise<any> => {
     try {
@@ -365,38 +384,256 @@ export const apiService = {
     }
   },
   
-  // QR Codes
-  generateQrCode: async (data: any): Promise<any> => {
+  // Notifications
+  getNotifications: async (): Promise<any> => {
     try {
-      const response = await api.post(ENDPOINTS.QR_CODES_GENERATE, data);
+      const response = await api.get(ENDPOINTS.NOTIFICATIONS);
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;
     }
   },
   
-  scanQrCode: async (data: any): Promise<any> => {
+  markNotificationAsRead: async (notificationId: string): Promise<any> => {
     try {
-      const response = await api.post(ENDPOINTS.QR_CODES_SCAN, data);
+      const response = await api.post(ENDPOINTS.NOTIFICATION_READ(notificationId));
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;
     }
   },
   
-  // Money Requests
-  createMoneyRequest: async (requestData: any): Promise<any> => {
+  markAllNotificationsAsRead: async (): Promise<any> => {
     try {
-      const response = await api.post(ENDPOINTS.MONEY_REQUESTS, requestData);
+      const response = await api.post(ENDPOINTS.NOTIFICATIONS_READ_ALL);
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;
     }
   },
   
-  getIncomingMoneyRequests: async (): Promise<any> => {
+  deleteNotification: async (notificationId: string): Promise<any> => {
     try {
-      const response = await api.get(ENDPOINTS.MONEY_REQUESTS_INCOMING);
+      const response = await api.delete(ENDPOINTS.NOTIFICATION_DELETE(notificationId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getNotificationSettings: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.NOTIFICATION_SETTINGS);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  updateNotificationSettings: async (settings: any): Promise<any> => {
+    try {
+      const response = await api.put(ENDPOINTS.NOTIFICATION_SETTINGS, settings);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Merchant
+  getMerchantProfile: async (merchantId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_PROFILE(merchantId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantTransactions: async (merchantId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_TRANSACTIONS(merchantId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantCommissions: async (merchantId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_COMMISSIONS(merchantId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantDualRoleSummary: async (merchantId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_DUAL_ROLE(merchantId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantPaymentMethods: async (merchantId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_PAYMENT_METHODS(merchantId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantPaymentLinks: async (merchantId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_PAYMENT_LINKS(merchantId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantQRCodes: async (merchantId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_QR_CODES(merchantId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantCustomers: async (merchantId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_CUSTOMERS(merchantId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMerchantSettlements: async (merchantId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MERCHANT_SETTLEMENTS(merchantId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Agent
+  getAgentProfile: async (agentId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.AGENT_PROFILE(agentId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getAgentFloatAccounts: async (agentId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.AGENT_FLOAT_ACCOUNTS(agentId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  requestAgentFloat: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.AGENT_FLOAT_REQUEST, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  processCashCollection: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.AGENT_CASH_COLLECTIONS, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  processCashDistribution: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.AGENT_CASH_DISTRIBUTIONS, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getAgentCommissions: async (agentId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.AGENT_COMMISSIONS(agentId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getAgentCustomers: async (agentId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.AGENT_CUSTOMERS(agentId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getAgentTransactions: async (agentId: string, params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.AGENT_TRANSACTIONS(agentId), { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  // Super Agent
+  getSuperAgentSubAgents: async (parentAgentId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SUPER_AGENT_SUB_AGENTS(parentAgentId));
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getSuperAgentFloatRequests: async (params?: any): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SUPER_AGENT_FLOAT_REQUESTS, { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  distributeSuperAgentFloat: async (data: any): Promise<any> => {
+    try {
+      const response = await api.post(ENDPOINTS.SUPER_AGENT_FLOAT_DISTRIBUTION, data);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getSuperAgentMarketLiquidity: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SUPER_AGENT_MARKET_LIQUIDITY);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getSuperAgentCommissionStructure: async (parentAgentId: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.SUPER_AGENT_COMMISSION_STRUCTURE(parentAgentId));
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;
@@ -425,6 +662,24 @@ export const apiService = {
   getExchangeRates: async (params?: any): Promise<any> => {
     try {
       const response = await api.get(ENDPOINTS.EXCHANGE_RATES, { params });
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getBusinessCategories: async (): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.BUSINESS_CATEGORIES);
+      return response.data;
+    } catch (error) {
+      throw error as ErrorResponse;
+    }
+  },
+  
+  getMobileOperators: async (iso: string): Promise<any> => {
+    try {
+      const response = await api.get(ENDPOINTS.MOBILE_OPERATORS(iso));
       return response.data;
     } catch (error) {
       throw error as ErrorResponse;

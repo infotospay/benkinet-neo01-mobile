@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { apiService } from '../../api';
 import { storeToken, storeUser, removeToken, removeUser } from '../../utils/authUtils';
 import { ErrorResponse } from '../../api/errorHandler';
+import { fetchUserRoles, resetRoles } from './roleSlice';
 
 // Define types
 interface User {
@@ -34,13 +35,16 @@ const initialState: AuthState = {
 // Async thunks
 export const login = createAsyncThunk(
   'auth/login',
-  async (credentials: { email?: string; phone?: string; password: string }, { rejectWithValue }) => {
+  async (credentials: { email?: string; phone?: string; password: string }, { dispatch, rejectWithValue }) => {
     try {
       const response = await apiService.login(credentials);
       
       // Store token and user data
       await storeToken(response.token);
       await storeUser(response.user);
+      
+      // Fetch user roles after successful login
+      dispatch(fetchUserRoles());
       
       return {
         user: response.user,
@@ -68,13 +72,16 @@ export const register = createAsyncThunk(
 
 export const verifyOtp = createAsyncThunk(
   'auth/verifyOtp',
-  async (data: { email?: string; phone?: string; otp: string }, { rejectWithValue }) => {
+  async (data: { email?: string; phone?: string; otp: string }, { dispatch, rejectWithValue }) => {
     try {
       const response = await apiService.verifyOtp(data);
       
       // Store token and user data
       await storeToken(response.token);
       await storeUser(response.user);
+      
+      // Fetch user roles after successful verification
+      dispatch(fetchUserRoles());
       
       return {
         user: response.user,
@@ -89,11 +96,14 @@ export const verifyOtp = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   'auth/logout',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       // Remove token and user data
       await removeToken();
       await removeUser();
+      
+      // Reset roles
+      dispatch(resetRoles());
       
       return true;
     } catch (error) {
