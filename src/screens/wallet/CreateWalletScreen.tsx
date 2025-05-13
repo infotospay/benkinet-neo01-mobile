@@ -11,26 +11,42 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Modal,
+  FlatList,
 } from 'react-native';
 import { colors, spacing, typography, borderRadius, shadows } from '../../theme';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { createWallet } from '../../store/slices/walletSlice';
+import { createWallet, fetchWalletHierarchies } from '../../store/slices/walletSlice';
 import { apiService } from '../../api';
 import { ErrorResponse } from '../../api/errorHandler';
 
-const CreateWalletScreen = ({ navigation }: any) => {
+const CreateWalletScreen = ({ route, navigation }: any) => {
+  const { hierarchyId } = route.params || {};
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector((state) => state.wallet);
+  const { isLoading, error, hierarchies } = useAppSelector((state) => state.wallet);
   
   const [name, setName] = useState('');
   const [currency, setCurrency] = useState('USD');
   const [type, setType] = useState('Personal');
   const [currencies, setCurrencies] = useState<any[]>([]);
   const [loadingCurrencies, setLoadingCurrencies] = useState(true);
+  const [selectedHierarchy, setSelectedHierarchy] = useState<any>(null);
+  const [showHierarchyModal, setShowHierarchyModal] = useState(false);
+  const [loadingHierarchies, setLoadingHierarchies] = useState(false);
 
   useEffect(() => {
     loadCurrencies();
+    loadHierarchies();
   }, []);
+
+  useEffect(() => {
+    if (hierarchyId && hierarchies.length > 0) {
+      const hierarchy = hierarchies.find(h => h.id === hierarchyId);
+      if (hierarchy) {
+        setSelectedHierarchy(hierarchy);
+      }
+    }
+  }, [hierarchyId, hierarchies]);
 
   const loadCurrencies = async () => {
     try {
@@ -45,6 +61,17 @@ const CreateWalletScreen = ({ navigation }: any) => {
     }
   };
 
+  const loadHierarchies = async () => {
+    try {
+      setLoadingHierarchies(true);
+      await dispatch(fetchWalletHierarchies()).unwrap();
+    } catch (error) {
+      console.error('Error loading hierarchies:', error);
+    } finally {
+      setLoadingHierarchies(false);
+    }
+  };
+
   const handleCreateWallet = async () => {
     if (!name.trim()) {
       Alert.alert('Error', 'Please enter a wallet name');
@@ -55,6 +82,7 @@ const CreateWalletScreen = ({ navigation }: any) => {
       name: name.trim(),
       currency,
       type,
+      hierarchyId: selectedHierarchy?.id,
     };
 
     try {
@@ -115,6 +143,28 @@ const CreateWalletScreen = ({ navigation }: any) => {
       </TouchableOpacity>
     );
   };
+
+  const renderHierarchyItem = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={styles.hierarchyItem}
+      onPress={() => {
+        setSelectedHierarchy(item);
+        setShowHierarchyModal(false);
+      }}
+    >
+      <View>
+        <Text style={styles.hierarchyName}>{item.name}</Text>
+        {item.description ? (
+          <Text style={styles.hierarchyDescription}>{item.description}</Text>
+        ) : null}
+      </View>
+      {item.isDefault && (
+        <View style={styles.defaultBadge}>
+          <Text style={styles.defaultBadgeText}>Default</Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -179,6 +229,40 @@ const CreateWalletScreen = ({ navigation }: any) => {
               </View>
             </View>
 
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Wallet Hierarchy (Optional)</Text>
+              <TouchableOpacity
+                style={styles.hierarchySelector}
+                onPress={() => setShowHierarchyModal(true)}
+                disabled={loadingHierarchies}
+              >
+                {loadingHierarchies ? (
+                  <ActivityIndicator size="small" color={colors.primary} />
+                ) : selectedHierarchy ? (
+                  <View style={styles.selectedHierarchy}>
+                    <Text style={styles.selectedHierarchyName}>{selectedHierarchy.name}</Text>
+                    {selectedHierarchy.isDefault && (
+                      <View style={styles.defaultBadge}>
+                        <Text style={styles.defaultBadgeText}>Default</Text>
+                      </View>
+                    )}
+                  </View>
+                ) : (
+                  <Text style={styles.hierarchySelectorPlaceholder}>
+                    Select a hierarchy (optional)
+                  </Text>
+                )}
+              </TouchableOpacity>
+              {selectedHierarchy && (
+                <TouchableOpacity
+                  style={styles.clearHierarchyButton}
+                  onPress={() => setSelectedHierarchy(null)}
+                >
+                  <Text style={styles.clearHierarchyButtonText}>Clear Selection</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
             <TouchableOpacity
               style={[styles.button, isLoading && styles.disabledButton]}
               onPress={handleCreateWallet}
@@ -193,6 +277,53 @@ const CreateWalletScreen = ({ navigation }: any) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      {/* Hierarchy Selection Modal */}
+      <Modal
+        visible={showHierarchyModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowHierarchyModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Select Hierarchy</Text>
+              <TouchableOpacity
+                style={styles.modalCloseButton}
+                onPress={() => setShowHierarchyModal(false)}
+              >
+                <Text style={styles.modalCloseButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+            
+            {hierarchies.length === 0 ? (
+              <View style={styles.emptyHierarchiesContainer}>
+                <Text style={styles.emptyHierarchiesText}>
+                  No hierarchies found. You can create a wallet without assigning it to a hierarchy.
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                data={hierarchies}
+                renderItem={renderHierarchyItem}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={styles.modalList}
+              />
+            )}
+            
+            <TouchableOpacity
+              style={styles.createHierarchyButton}
+              onPress={() => {
+                setShowHierarchyModal(false);
+                navigation.navigate('CreateHierarchy');
+              }}
+            >
+              <Text style={styles.createHierarchyButtonText}>Create New Hierarchy</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -287,6 +418,35 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: '500',
   },
+  hierarchySelector: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: colors.gray[300],
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    justifyContent: 'center',
+  },
+  hierarchySelectorPlaceholder: {
+    color: colors.gray[400],
+    fontSize: typography.fontSize.md,
+  },
+  selectedHierarchy: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  selectedHierarchyName: {
+    fontSize: typography.fontSize.md,
+    color: colors.dark,
+  },
+  clearHierarchyButton: {
+    alignSelf: 'flex-end',
+    marginTop: spacing.xs,
+  },
+  clearHierarchyButtonText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.primary,
+  },
   button: {
     backgroundColor: colors.primary,
     borderRadius: borderRadius.md,
@@ -312,6 +472,92 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     padding: spacing.sm,
     borderRadius: borderRadius.md,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: borderRadius.lg,
+    borderTopRightRadius: borderRadius.lg,
+    maxHeight: '70%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray[200],
+  },
+  modalTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: 'bold',
+    color: colors.dark,
+  },
+  modalCloseButton: {
+    padding: spacing.sm,
+  },
+  modalCloseButtonText: {
+    color: colors.primary,
+    fontSize: typography.fontSize.md,
+    fontWeight: '500',
+  },
+  modalList: {
+    padding: spacing.md,
+  },
+  hierarchyItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray[200],
+  },
+  hierarchyName: {
+    fontSize: typography.fontSize.md,
+    fontWeight: '500',
+    color: colors.dark,
+    marginBottom: spacing.xs,
+  },
+  hierarchyDescription: {
+    fontSize: typography.fontSize.sm,
+    color: colors.gray[600],
+  },
+  defaultBadge: {
+    backgroundColor: colors.primary + '20', // 20% opacity
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.sm,
+  },
+  defaultBadgeText: {
+    fontSize: typography.fontSize.xs,
+    color: colors.primary,
+    fontWeight: '500',
+  },
+  emptyHierarchiesContainer: {
+    padding: spacing.xl,
+    alignItems: 'center',
+  },
+  emptyHierarchiesText: {
+    fontSize: typography.fontSize.md,
+    color: colors.gray[600],
+    textAlign: 'center',
+  },
+  createHierarchyButton: {
+    backgroundColor: colors.primary,
+    padding: spacing.md,
+    margin: spacing.md,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+  },
+  createHierarchyButtonText: {
+    color: colors.white,
+    fontSize: typography.fontSize.md,
+    fontWeight: '500',
   },
 });
 

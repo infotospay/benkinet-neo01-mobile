@@ -54,6 +54,10 @@ const WalletScreen = ({ navigation }: any) => {
     navigation.navigate('WalletDetails', { walletId });
   };
 
+  const handleViewHierarchies = () => {
+    navigation.navigate('WalletHierarchies');
+  };
+
   if (loading && !refreshing) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
@@ -73,6 +77,12 @@ const WalletScreen = ({ navigation }: any) => {
       </View>
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity style={styles.actionButton} onPress={handleViewHierarchies}>
+          <Text style={styles.actionButtonText}>View Wallet Hierarchies</Text>
+        </TouchableOpacity>
+      </View>
 
       <ScrollView
         contentContainerStyle={styles.scrollView}
@@ -163,6 +173,25 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: colors.white,
+    fontSize: typography.fontSize.sm,
+    fontWeight: '500',
+  },
+  actionsContainer: {
+    padding: spacing.md,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray[200],
+  },
+  actionButton: {
+    backgroundColor: colors.light,
+    borderRadius: borderRadius.md,
+    padding: spacing.sm,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  actionButtonText: {
+    color: colors.primary,
     fontSize: typography.fontSize.sm,
     fontWeight: '500',
   },

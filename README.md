@@ -13,6 +13,7 @@ A comprehensive mobile application for the Benkinet Neo01 platform, providing ba
 - **Transaction History**: View and filter transaction history
 - **User Profile Management**: Edit profile, security settings, and language preferences
 - **Notifications**: Receive and manage notifications for various events
+- **Wallet Hierarchies**: Organize wallets into hierarchical groups with transfers between wallets
 
 ## Technology Stack
 
@@ -58,6 +59,11 @@ The following features have been implemented:
 11. ✅ Transactions List and History
 12. ✅ User Profile Management
 13. ✅ Notifications and Alerts
+14. ✅ Wallet Hierarchies
+    - Create and manage wallet hierarchies
+    - Organize wallets into hierarchical groups
+    - Transfer funds between wallets in the same hierarchy
+    - View hierarchy balances and statistics
 
 ## Getting Started
 
