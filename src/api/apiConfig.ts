@@ -42,6 +42,30 @@ export const ENDPOINTS = {
   MONEY_REQUESTS_INCOMING: '/payment/money-requests/incoming',
   PAYMENT_LINKS: '/payment/payment-links',
   
+  // Payment Methods
+  PAYMENT_METHODS: '/payment/payment-methods',
+  PAYMENT_METHOD_DETAILS: (paymentMethodId: string) => `/payment/payment-methods/${paymentMethodId}`,
+  PAYMENT_METHOD_DEFAULT: '/payment/payment-methods/default',
+  PAYMENT_METHOD_CARD: '/payment/payment-methods/card',
+  PAYMENT_METHOD_MOBILE_MONEY: '/payment/payment-methods/mobile-money',
+  PAYMENT_METHOD_BANK: '/payment/payment-methods/bank',
+  PAYMENT_METHOD_PAYPAL: '/payment/payment-methods/paypal',
+  PAYMENT_METHOD_CRYPTO: '/payment/payment-methods/crypto',
+  
+  // International Remittances
+  REMITTANCES: '/payment/remittances',
+  REMITTANCE_DETAILS: (remittanceId: string) => `/payment/remittances/${remittanceId}`,
+  REMITTANCE_QUOTE: '/payment/remittances/quote',
+  REMITTANCE_COUNTRIES: '/payment/remittances/countries',
+  REMITTANCE_PROVIDERS: '/payment/remittances/providers',
+  REMITTANCE_TRACKING: (trackingNumber: string) => `/payment/remittances/tracking/${trackingNumber}`,
+  
+  // Recurring Payments
+  RECURRING_PAYMENTS: '/payment/recurring-payments',
+  RECURRING_PAYMENT_DETAILS: (recurringPaymentId: string) => `/payment/recurring-payments/${recurringPaymentId}`,
+  RECURRING_PAYMENT_TEMPLATES: '/payment/recurring-payments/templates',
+  RECURRING_PAYMENT_TEMPLATE_DETAILS: (templateId: string) => `/payment/recurring-payments/templates/${templateId}`,
+  
   // Scheduled Transactions
   SCHEDULED_TRANSACTIONS: '/payment/scheduled-transactions',
   SCHEDULED_TRANSACTION_DETAILS: (scheduledTransactionId: string) => `/payment/scheduled-transactions/${scheduledTransactionId}`,

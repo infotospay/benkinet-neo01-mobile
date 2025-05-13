@@ -8,6 +8,7 @@ import notificationReducer from './slices/notificationSlice';
 import securityReducer from './slices/securitySlice';
 import currencyReducer from './slices/currencySlice';
 import roleReducer from './slices/roleSlice';
+import paymentMethodReducer from './slices/paymentMethod';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     security: securityReducer,
     currency: currencyReducer,
     role: roleReducer,
+    paymentMethod: paymentMethodReducer,
     // Other reducers will be added as they are created
   },
   middleware: (getDefaultMiddleware) =>

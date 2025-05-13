@@ -39,6 +39,7 @@ import {
 } from '../../screens/notifications';
 import { AgentDashboardScreen } from '../../screens/agent';
 import { MerchantDashboardScreen } from '../../screens/merchant';
+import { PaymentMethodsScreen } from '../../screens/payment';
 
 // Define navigation types
 export type MainStackParamList = {
@@ -98,6 +99,9 @@ export type MainStackParamList = {
   MerchantSettlements: undefined;
   MerchantCommissions: undefined;
   MerchantDualRole: undefined;
+  
+  // Payment Method Screens
+  PaymentMethods: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -303,6 +307,13 @@ const MainStack = () => {
         name="CurrencyPreferences" 
         component={PlaceholderScreen} 
         options={{ headerShown: true, title: 'Currency Preferences' }}
+      />
+      
+      {/* Payment Method Screens */}
+      <Stack.Screen 
+        name="PaymentMethods" 
+        component={PaymentMethodsScreen} 
+        options={{ headerShown: true, title: 'Payment Methods' }}
       />
       
       {/* Agent Screens */}

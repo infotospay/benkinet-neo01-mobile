@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  SafeAreaView,
-  ScrollView,
+  Text,
   TouchableOpacity,
-  Image,
+  ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import { colors, spacing, typography, borderRadius, shadows } from '../../theme';
 
@@ -60,6 +59,14 @@ const PaymentsScreen = ({ navigation }: any) => {
       color: colors.gray[700],
       onPress: () => navigation.navigate('BankTransfer'),
     },
+    {
+      id: 'methods',
+      title: 'Payment Methods',
+      description: 'Manage your payment methods',
+      icon: '💳',
+      color: colors.purple,
+      onPress: () => navigation.navigate('PaymentMethods'),
+    },
   ];
 
   const renderPaymentOption = (option: any) => (
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   title: {
-    fontSize: typography.fontSize.xxl,
+    fontSize: typography.fontSize.xl,
     fontWeight: 'bold',
     color: colors.dark,
     marginBottom: spacing.xs,
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: typography.fontSize.md,
     color: colors.gray[600],
-    marginBottom: spacing.xl,
+    marginBottom: spacing.lg,
   },
   optionsContainer: {
     flexDirection: 'row',
@@ -117,11 +124,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   optionCard: {
+    width: '48%',
     backgroundColor: colors.white,
     borderRadius: borderRadius.lg,
     padding: spacing.md,
-    marginBottom: spacing.lg,
-    width: '48%',
+    marginBottom: spacing.md,
     ...shadows.sm,
   },
   optionIconContainer: {
@@ -130,10 +137,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   optionIcon: {
-    fontSize: typography.fontSize.xl,
+    fontSize: 24,
     color: colors.white,
   },
   optionContent: {
